@@ -12,6 +12,13 @@ const saveTodos = function (todos) {
   localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+const removeTodo = function (id) {
+  const todoIndex = todos.findIndex(function (todo) {
+    return todo.id === id;
+  });
+  todos.splice(todoIndex, 1);
+}
+
 const generateTodoDOM = function (todo) {
   const todoEl = document.createElement('div');
   const checkbox = document.createElement('input');
@@ -21,6 +28,11 @@ const generateTodoDOM = function (todo) {
   checkbox.setAttribute('type', 'checkbox');
   todoText.textContent = todo.text;
   button.textContent = 'x';
+  button.addEventListener('click', function () {
+    removeTodo(todo.id);
+    saveTodos(todos);
+    renderTodos(todos, filters);
+  });
 
   todoEl.appendChild(checkbox);
   todoEl.appendChild(todoText);
