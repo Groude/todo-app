@@ -1,25 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Todo App</title>
+  <title>To-do App</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <h1>Todos</h1>
-  <input id="search-todo" type="text" placeholder="Type here to search">
-  <label>
-    <input id="hide-completed" type="checkbox"> Hide completed
-  </label>
-  <div id="todos"></div>
-  <form id="add-todo">
-    <input type="text" placeholder="Enter something to do" name="todoName">
-    <button>Add Todo</button>
-  </form>
 
-  <script src="uuid4.js"></script>
-  <script src="functions.js"></script>
-  <script src="script.js"></script>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <h1 class="header__title">To-do App</h1>
+      <h2 class="header__subtitle">What do you need to do?</h2>
+    </div>
+  </header>
+
+  <div class="actions">
+    <div class="actions__container actions__container--spaced">
+      <input id="search-todo" class="input" type="text" placeholder="Type here to search">
+      <label class="checkbox">
+        <input id="hide-completed" type="checkbox"> Hide completed
+      </label>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="todos"></div>
+    <form id="add-todo">
+      <input class="input" type="text" placeholder="Enter something to do" name="text">
+      <button class="button">Add Todo</button>
+    </form>
+  </div>
+  
+
+  <script src="js/uuid4.js"></script>
+  <script src="js/functions.js"></script>
+  <script src="js/script.js"></script>
 </body>
+
 </html>

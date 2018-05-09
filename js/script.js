@@ -10,15 +10,20 @@ const filters = {
 renderTodos(todos, filters);
 
 document.querySelector('#add-todo').addEventListener('submit', (e) => {
+  const inputEl = e.target.elements.text.value.trim();
+
   e.preventDefault();
-  todos.push ({
-    id: uuidv4(),
-    text: e.target.elements.todoName.value,
-    completed: false
-  });
-  saveTodos(todos);
-  renderTodos(todos, filters);
-  e.target.elements.todoName.value = '';
+
+  if (inputEl.length > 0) {
+    todos.push ({
+      id: uuidv4(),
+      text: inputEl,
+      completed: false
+    });
+    saveTodos(todos);
+    renderTodos(todos, filters);
+    e.target.elements.text.value = '';
+  }
 });
 
 document.querySelector('#search-todo').addEventListener('input', (e) => {

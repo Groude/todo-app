@@ -26,13 +26,14 @@ const removeTodo = (id) => {
 const toggleTodo = (id) => {
   const todo = todos.find((todo) => todo.id === id);
 
-  if (!todo) {
+  if (todo) {
     todo.completed = !todo.completed;
   }
 }
 
 const generateTodoDOM = (todo) => {
-  const todoEl = document.createElement('div');
+  const todoEl = document.createElement('label');
+  const containerEl = document.createElement('div');
   const checkbox = document.createElement('input');
   const todoText = document.createElement('span');
   const button = document.createElement('button');
@@ -47,27 +48,36 @@ const generateTodoDOM = (todo) => {
 
   todoText.textContent = todo.text;
 
-  button.textContent = 'x';
+  todoEl.classList.add('list-item');
+  containerEl.classList.add('list-item__container');
+  todoEl.appendChild(containerEl);
+
+  button.textContent = 'remove';
+  button.classList.add('button', 'button--text')
   button.addEventListener('click', () => {
     removeTodo(todo.id);
     saveTodos(todos);
     renderTodos(todos, filters);
   });
 
-  todoEl.appendChild(checkbox);
-  todoEl.appendChild(todoText);
+  containerEl.appendChild(checkbox);
+  containerEl.appendChild(todoText);
   todoEl.appendChild(button);
 
   return todoEl;
 }
 
 const generateSummaryDOM = (incompleteTodos) => {
+  const pluralWord = incompleteTodos.length === 1 ? '' : 's';
   const summary = document.createElement('h2');
-  summary.textContent = `You have ${incompleteTodos.length} todos left`;
+  summary.classList.add('list-title');
+  summary.textContent = `You have ${incompleteTodos.length} todo${pluralWord} left`;
   return summary;
 }
 
 const renderTodos = (todos, filters) => {
+  const todosEl = document.querySelector('#todos');
+
   let filteredTodos = todos.filter((todo) => {
     const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
     const hideCompletedMatch = filters.hideCompleted ? !todo.completed : true
@@ -76,11 +86,18 @@ const renderTodos = (todos, filters) => {
 
   const incompleteTodos = filteredTodos.filter((todo) => !todo.completed);
 
-  document.querySelector('#todos').innerHTML = '';
+  todosEl.innerHTML = '';
 
-  document.querySelector('#todos').appendChild(generateSummaryDOM(incompleteTodos));
+  todosEl.appendChild(generateSummaryDOM(incompleteTodos));
 
-  filteredTodos.forEach((todo) => {
-    document.querySelector('#todos').appendChild(generateTodoDOM(todo));
-  });
+  if (filteredTodos.length > 0) {
+    filteredTodos.forEach((todo) => {
+      todosEl.appendChild(generateTodoDOM(todo));
+    });
+  } else {
+    const emptyMessage = document.createElement('p')
+    emptyMessage.textContent = 'No to-dos to show';
+    emptyMessage.classList.add('empty-message');
+    todosEl.appendChild(emptyMessage);
+  }
 }
